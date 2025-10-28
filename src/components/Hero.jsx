@@ -1,8 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Spline from '@splinetool/react-spline';
+import React, { useEffect, useState } from 'react';
 
 const Hero = () => {
-  const wrapperRef = useRef(null);
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -23,28 +21,30 @@ const Hero = () => {
     };
   }, []);
 
-  const rotate = Math.min(scrollY / 600, 0.15); // subtle tilt with scroll
-  const scale = 1 + Math.min(scrollY / 4000, 0.06); // slight scale as you scroll
+  const rotate = Math.min(scrollY / 600, 0.1); // subtle tilt with scroll
+  const scale = 1 + Math.min(scrollY / 4000, 0.05); // slight scale as you scroll
 
   return (
     <section className="relative h-[120vh] overflow-hidden flex items-center" aria-label="Hero">
-      {/* 3D Background */}
+      {/* Static background image with subtle parallax transform */}
       <div
-        ref={wrapperRef}
-        className="absolute inset-0"
+        className="absolute inset-0 will-change-transform"
         style={{
           transform: `perspective(1200px) translateZ(0) rotateX(${rotate}turn) scale(${scale})`,
           transformOrigin: 'center top',
           transition: 'transform 0.1s linear',
         }}
       >
-        <Spline
-          scene="https://prod.spline.design/ESO6PnMadasO0hU3/scene.splinecode"
-          style={{ width: '100%', height: '100%' }}
+        <img
+          src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2069&auto=format&fit=crop"
+          alt="Modern data center with blue lighting"
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+          fetchpriority="high"
         />
-        {/* Soft gradient overlays that don't block pointer interactions */}
+        {/* Soft gradient overlays that don't block interactions */}
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(56,189,248,0.25),transparent_40%),radial-gradient(ellipse_at_bottom_left,rgba(168,85,247,0.25),transparent_40%)]" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/20 via-black/20 to-black/60" />
       </div>
 
       {/* Content */}
